@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CustomAppLayout Demo</title>
+    <script type="module" async>
+      import './../custom-app-layout.js';
+    </script>
+    <style>
+      body {
+        margin: 0;
+      }
+      header {
+        width: 100%;
+        height: 48px;
+        background: #EEE;
+      }
+      section {
+        height: 500px;
+      }
+      [one] {
+        background: #EEE;
+      }
+      [two] {
+        background: #555;
+      }
+      [three] {
+        background: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <custom-app-layout fullbleed scrolls>
+      <header slot="header" fixed>
+
+      </header>
+      <section slot="content" one>
+
+      </section>
+      <section slot="content" two>
+
+      </section>
+      <section slot="content" three>
+
+      </section>
+    </cusyom-app-layout>
+  </body>
+</html>

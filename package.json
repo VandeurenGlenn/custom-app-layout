@@ -1,0 +1,15 @@
+{
+  "name": "custom-app-layout",
+  "version": "0.9.0-preview",
+  "main": "custom-app-layout.js",
+  "repository": "https://github.com/vandeurenglenn/custom-app-layout",
+  "author": "Glenn Vandeuren <vandeurenglenn@gmail.com>",
+  "license": "MIT",
+  "flat": true,
+  "backed": {
+    "demo": "demo"
+  },
+  "dependencies": {
+    "backed": "^0.9.0-preview.2"
+  }
+}
