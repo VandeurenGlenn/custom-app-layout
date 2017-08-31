@@ -1,5 +1,5 @@
-import LitMixin from '/node_modules/backed/mixins/lit-mixin.js';
-import PropertyMixin from '/node_modules/backed/mixins/property-mixin.js';
+import LitMixin from './../backed/mixins/lit-mixin.js';
+import PropertyMixin from './../backed/mixins/property-mixin.js';
 
 /**
  * @example
@@ -15,7 +15,9 @@ class CustomAppLayout extends LitMixin(PropertyMixin(HTMLElement)) {
    */
   constructor(options = {properties: {}}) {
     const properties = {
-      firstRender: {value: true, renderer: 'render'}
+      firstRender: {value: true, renderer: 'render'},
+      headerMarginTop: {value: '', renderer: 'render'},
+      headerPaddingTop: {value: '', renderer: 'render'}
     }
     Object.assign(options.properties, properties); // merge properties
 
@@ -51,18 +53,20 @@ class CustomAppLayout extends LitMixin(PropertyMixin(HTMLElement)) {
   render() {
     if (this.firstRender === false) { // do nothing on firstRender
       const header = this.header;
-      const containerStyle = this.container.style;
       const headerHeight = header.offsetHeight;
-
       if (header.hasAttribute('fixed') && !header.hasAttribute('condenses')) {
         // If the header size does not change and we're using a scrolling region, exclude
         // the header area from the scrolling region so that the header doesn't overlap
         // the scrollbar.
-        containerStyle.marginTop = headerHeight + 'px';
-        containerStyle.paddingTop = '';
+        requestAnimationFrame(() => {
+          this.headerMarginTop = headerHeight + 'px';
+          this.headerPaddingTop = '';
+        });
       } else {
-        containerStyle.paddingTop = headerHeight + 'px';
-        containerStyle.marginTop = '';
+        requestAnimationFrame(() => {
+          this.headerPaddingTop = headerHeight + 'px';
+          this.headerMarginTop = '';
+        });
       }
     } else {
       this.firstRender = false;
@@ -105,7 +109,7 @@ class CustomAppLayout extends LitMixin(PropertyMixin(HTMLElement)) {
         }
       </style>
       <slot name="header"></slot>
-      <span class="content-container">
+      <span class="content-container" style="margin-top: ${this.headerMarginTop}; padding-top: ${this.headerPaddingTop};">
         <slot name="content"></slot>
       </span>
     `;
