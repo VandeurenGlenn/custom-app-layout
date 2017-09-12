@@ -1,6 +1,6 @@
 {
   "name": "custom-app-layout",
-  "version": "0.9.0-preview.3",
+  "version": "0.9.0-preview.4",
   "main": "custom-app-layout.js",
   "module": "src/custom-app-layout.js",
   "repository": "https://github.com/vandeurenglenn/custom-app-layout",
