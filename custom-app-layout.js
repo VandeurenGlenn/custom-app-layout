@@ -1118,16 +1118,15 @@ class CustomAppLayout extends CustomEffects(litMixin$1(propertyMixin$1(HTMLEleme
     } else {
       for (const node of slot) {
         if (node.nodeType === 1) {
-          return node;
+          this.__nodeList.push(node);
         }
       }
+      if (this.__nodeList.length !== 0) return this.__nodeList;
     }
-    return slot;
+    return [slot];
   }
-  get content() {
-    return this.slotted(this.shadowRoot.querySelector('slot[name="content"]'));
-  }
-  get header() {
+  get headers() {
+    this.__nodeList = [];
     return this.slotted(this.shadowRoot.querySelector('slot[name="header"]'));
   }
   get container() {
@@ -1136,16 +1135,24 @@ class CustomAppLayout extends CustomEffects(litMixin$1(propertyMixin$1(HTMLEleme
   onResize() {
     if (!this.firstRender) {
       RenderStatus.afterRender(this, () => {
-        const header = this.header;
-        const headerHeight = header.offsetHeight;
-        if (header.hasAttribute('fixed') && !header.hasAttribute('condenses')) {
+        const headers = this.headers;
+        console.log(this.headers);
+        let offsetHeight = 0;
+        if (headers.length !== 0) {
+          for (const header of headers) {
+            offsetHeight += header.offsetHeight;
+          }
+        } else {
+          offsetHeight = headers[0].offsetHeight;
+        }
+        if (headers[0].hasAttribute('fixed') && !headers[0].hasAttribute('condenses')) {
           requestAnimationFrame(() => {
-            this.headerMarginTop = headerHeight + 'px';
+            this.headerMarginTop = offsetHeight + 'px';
             this.headerPaddingTop = '';
           });
         } else {
           requestAnimationFrame(() => {
-            this.headerPaddingTop = headerHeight + 'px';
+            this.headerPaddingTop = offsetHeight + 'px';
             this.headerMarginTop = '';
           });
         }
@@ -1173,7 +1180,7 @@ class CustomAppLayout extends CustomEffects(litMixin$1(propertyMixin$1(HTMLEleme
           right: 0;
           bottom: 0;
         }
-        ::slotted([slot="header"]) {
+        :host:not([fixed]) ::slotted([slot="header"]) {
           position: absolute;
           top: 0;
           left: 0;
