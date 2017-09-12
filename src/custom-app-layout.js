@@ -1,5 +1,8 @@
-import LitMixin from './../../backed/mixins/lit-mixin.min.js';
-import PropertyMixin from './../../backed/mixins/property-mixin.min.js';
+import LitMixin from './../node_modules/backed/mixins/lit-mixin.min.js';
+import PropertyMixin from './../node_modules/backed/mixins/property-mixin.min.js';
+import CustomEffects from './../node_modules/custom-effects/src/custom-effects.js';
+import merge from './../node_modules/lodash-es/merge.js';
+import RenderStatus from './../node_modules/backed/src/internals/render-status.js'
 
 /**
  * @example
@@ -9,24 +12,26 @@ import PropertyMixin from './../../backed/mixins/property-mixin.min.js';
  * </custom-app-layout>
  * @extends LitMixin, PropertyMixin, HTMLElement
  */
-class CustomAppLayout extends LitMixin(PropertyMixin(HTMLElement)) {
+class CustomAppLayout extends CustomEffects(LitMixin(PropertyMixin(HTMLElement))) {
   /**
    * @param {object} options contains properties, observers, listeners, etc...
    */
-  constructor(options = {properties: {}}) {
+  constructor(options = {properties: {}, effects: []}) {
     const properties = {
-      firstRender: {value: true, renderer: 'render'},
+      firstRender: {value: true, observer: 'onResize'},
       headerMarginTop: {value: '', renderer: 'render'},
       headerPaddingTop: {value: '', renderer: 'render'}
     }
-    Object.assign(options.properties, properties); // merge properties
+    merge(options.properties, properties); // merge properties
 
+    const effects = ['resize'];
+    merge(options.effects, effects);
     super(options);
   }
   // iterate trough slots untill no slot is found
   slotted(slot) {
-    slot = slot.assignedNodes()
-    if (slot[0].localName === 'slot') {
+    slot = slot.assignedNodes();
+    if (slot[0] && slot[0].localName === 'slot') {
       return this.slotted(slot[0]);
     } else {
       for (const node of slot) {
@@ -50,25 +55,31 @@ class CustomAppLayout extends LitMixin(PropertyMixin(HTMLElement)) {
     return this.shadowRoot.querySelector('.content-container');
   }
 
+  onResize() {
+    if (!this.firstRender) {
+      RenderStatus.afterRender(this, () => {
+        const header = this.header;
+        const headerHeight = header.offsetHeight;
+        if (header.hasAttribute('fixed') && !header.hasAttribute('condenses')) {
+          // If the header size does not change and we're using a scrolling region, exclude
+          // the header area from the scrolling region so that the header doesn't overlap
+          // the scrollbar.
+          requestAnimationFrame(() => {
+            this.headerMarginTop = headerHeight + 'px';
+            this.headerPaddingTop = '';
+          });
+        } else {
+          requestAnimationFrame(() => {
+            this.headerPaddingTop = headerHeight + 'px';
+            this.headerMarginTop = '';
+          });
+        }
+      })
+    }
+  }
+
   render() {
-    if (this.firstRender === false) { // do nothing on firstRender
-      const header = this.header;
-      const headerHeight = header.offsetHeight;
-      if (header.hasAttribute('fixed') && !header.hasAttribute('condenses')) {
-        // If the header size does not change and we're using a scrolling region, exclude
-        // the header area from the scrolling region so that the header doesn't overlap
-        // the scrollbar.
-        requestAnimationFrame(() => {
-          this.headerMarginTop = headerHeight + 'px';
-          this.headerPaddingTop = '';
-        });
-      } else {
-        requestAnimationFrame(() => {
-          this.headerPaddingTop = headerHeight + 'px';
-          this.headerMarginTop = '';
-        });
-      }
-    } else {
+    if (this.firstRender) { // do nothing on firstRender
       this.firstRender = false;
     }
     return html`

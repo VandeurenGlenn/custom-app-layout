@@ -19,6 +19,11 @@
     "demo": "demo"
   },
   "dependencies": {
-    "backed": "^0.9.0-preview.2"
+    "backed": "beta",
+    "custom-effects": "experimental",
+    "lodash-es": "^4.17.4"
+  },
+  "resolutions": {
+    "backed": "0.9.0-beta.1"
   }
 }
