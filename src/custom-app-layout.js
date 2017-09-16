@@ -1,8 +1,8 @@
-import LitMixin from './../node_modules/backed/mixins/lit-mixin.min.js';
-import PropertyMixin from './../node_modules/backed/mixins/property-mixin.min.js';
-import CustomEffects from './../node_modules/custom-effects/src/custom-effects.js';
-import merge from './../node_modules/lodash-es/merge.js';
-import RenderStatus from './../node_modules/backed/src/internals/render-status.js'
+import LitMixin from './../../backed/mixins/lit-mixin.min.js';
+import PropertyMixin from './../../backed/mixins/property-mixin.min.js';
+import CustomEffects from './../../custom-effects/src/custom-effects.js';
+import merge from './../../lodash-es/merge.js';
+import RenderStatus from './../../backed/src/internals/render-status.js'
 
 /**
  * @example
