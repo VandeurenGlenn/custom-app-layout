@@ -1,8 +1,8 @@
-import LitMixin from './../../backed/mixins/lit-mixin.min.js';
-import PropertyMixin from './../../backed/mixins/property-mixin.min.js';
+import { define, merge } from './../../backed/src/utils';
+import LitMixin from './../../backed/src/mixins/lit-mixin.js';
+import PropertyMixin from './../../backed/src/mixins/property-mixin.js';
 import CustomEffects from './../../custom-effects/src/custom-effects.js';
-import merge from './../../lodash-es/merge.js';
-import RenderStatus from './../../backed/src/internals/render-status.js'
+import RenderStatus from './../../backed/src/internals/render-status.js';
 
 /**
  * @example
@@ -12,22 +12,32 @@ import RenderStatus from './../../backed/src/internals/render-status.js'
  * </custom-app-layout>
  * @extends LitMixin, PropertyMixin, HTMLElement
  */
-class CustomAppLayout extends CustomEffects(LitMixin(PropertyMixin(HTMLElement))) {
+export default define(class CustomAppLayout extends PropertyMixin(LitMixin(CustomEffects(HTMLElement))) {
   /**
-   * @param {object} options contains properties, observers, listeners, etc...
+   * @return {object}
    */
-  constructor(options = {properties: {}, effects: []}) {
-    const properties = {
+  static get properties() {
+    return merge(super.properties, {
       firstRender: {value: true, observer: 'onResize'},
       headerMarginTop: {value: '', renderer: 'render'},
       headerPaddingTop: {value: '', renderer: 'render'}
-    }
-    merge(options.properties, properties); // merge properties
-
-    const effects = ['resize'];
-    merge(options.effects, effects);
-    super(options);
+    });
   }
+
+  /**
+   * @return {array} [effects]
+   */
+  static get effects() {
+    return ['resize'];
+  }
+
+  /**
+   * calls super
+   */
+  constructor() {
+    super();
+  }
+
   // iterate trough slots untill no slot is found
   slotted(slot) {
     slot = slot.assignedNodes();
@@ -131,6 +141,4 @@ class CustomAppLayout extends CustomEffects(LitMixin(PropertyMixin(HTMLElement))
       </span>
     `;
   }
-};
-
-export default customElements.define('custom-app-layout', CustomAppLayout);
+});

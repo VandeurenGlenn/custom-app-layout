@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-backed@^0.9.0-preview.2, backed@beta, backed@next:
+backed@0.10.0-alpha.2, backed@0.9.0-beta.1, backed@^0.9.0, backed@^0.9.2, backed@beta, backed@next:
   version "0.9.0-beta.1"
   resolved "https://registry.yarnpkg.com/backed/-/backed-0.9.0-beta.1.tgz#ead40c4c57bd175f635ab49ca3655f46ad04c2ee"
   dependencies:
@@ -11,10 +11,12 @@ backed@^0.9.0-preview.2, backed@beta, backed@next:
     lodash-es "^4.17.4"
 
 custom-app-layout@next:
-  version "0.9.0-preview.2"
-  resolved "https://registry.yarnpkg.com/custom-app-layout/-/custom-app-layout-0.9.0-preview.2.tgz#e85ad6d2af7aad1349fa590babd307e239feb776"
+  version "0.9.0-preview.5"
+  resolved "https://registry.yarnpkg.com/custom-app-layout/-/custom-app-layout-0.9.0-preview.5.tgz#8495bd0bbe04f5bab224ea310b77a63006195251"
   dependencies:
-    backed "^0.9.0-preview.2"
+    backed beta
+    custom-effects experimental
+    lodash-es "^4.17.4"
 
 custom-docs@^0.9.0:
   version "0.9.0"
@@ -24,9 +26,9 @@ custom-docs@^0.9.0:
     custom-header next
     custom-pages "^0.9.0"
 
-custom-effects@experimental:
-  version "0.9.0-experimental.1"
-  resolved "https://registry.yarnpkg.com/custom-effects/-/custom-effects-0.9.0-experimental.1.tgz#fd9f76f64220f085f21d2c9c45669bba9bbdbecf"
+custom-effects@0.9.0-experimental.2, custom-effects@^0.9.0-alpha.1, custom-effects@experimental:
+  version "0.9.0-experimental.2"
+  resolved "https://registry.yarnpkg.com/custom-effects/-/custom-effects-0.9.0-experimental.2.tgz#a4074a342aacb9c591c12b97304e8674a5f28fd0"
 
 custom-header@next:
   version "0.9.0-preview.1"
@@ -35,21 +37,21 @@ custom-header@next:
     backed next
 
 custom-pages@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/custom-pages/-/custom-pages-0.9.0.tgz#9aaa1d7336565f2f1638ad87205f00fd249d43dc"
+  version "0.9.4"
+  resolved "https://registry.yarnpkg.com/custom-pages/-/custom-pages-0.9.4.tgz#9d42b31759f8d6118bcff7890eef76f6b42afd69"
   dependencies:
-    backed "^0.9.0-preview.2"
-    custom-select-mixins next
+    backed "^0.9.2"
+    custom-select-mixins "^0.9.1"
 
-custom-select-mixins@next:
-  version "0.9.0-preview.2"
-  resolved "https://registry.yarnpkg.com/custom-select-mixins/-/custom-select-mixins-0.9.0-preview.2.tgz#4bd59bb02449b965d7f393f43ba0d0b7d509537f"
+custom-select-mixins@^0.9.1:
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/custom-select-mixins/-/custom-select-mixins-0.9.2.tgz#1cfdebb5c8e44467dcad4084552b5b4aac2b59a2"
   dependencies:
-    backed "^0.9.0-preview.2"
+    backed "^0.9.0"
 
-lit-html@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-0.5.0.tgz#eb2fb1202d16fbae5f9d0879ba487b286d6b8458"
+lit-html@0.7.1, lit-html@^0.5.0, lit-html@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-0.7.1.tgz#61785045cf84f9ee955fa078c2985b52b765ad16"
 
 lodash-es@^4.17.4:
   version "4.17.4"
