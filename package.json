@@ -1,31 +1,23 @@
 {
   "name": "custom-app-layout",
-  "version": "0.9.0-preview.6",
+  "version": "0.10.0",
   "main": "custom-app-layout.js",
   "module": "src/custom-app-layout.js",
   "repository": "https://github.com/vandeurenglenn/custom-app-layout",
   "author": "Glenn Vandeuren <vandeurenglenn@gmail.com>",
   "license": "MIT",
   "flat": true,
-  "backed": {
-    "bundles": [
-      {
-        "src": "src/custom-app-layout.js",
-        "dest": "custom-app-layout.js",
-        "moduleName": "customAppLayout",
-        "sourceMaps": false,
-        "format": "iife"
-      }
-    ]
+  "scripts": {
+    "build": "rollup -c"
   },
   "dependencies": {
-    "backed": "^0.9.0-beta.1",
-    "custom-effects": "^0.9.0-alpha.1",
-    "lodash-es": "^4.17.4"
+    "backed": "^0.12.2",
+    "custom-effects": "^0.9.0-alpha.1"
   },
   "resolutions": {
-    "backed": "0.9.0-beta.1",
-    "lit-html": "0.7.1",
     "custom-effects": "0.9.0-experimental.2"
+  },
+  "devDependencies": {
+    "rollup": "^0.59.4"
   }
 }

@@ -1,8 +1,9 @@
-import { define, merge } from './../../backed/src/utils';
-import LitMixin from './../../backed/src/mixins/lit-mixin.js';
-import PropertyMixin from './../../backed/src/mixins/property-mixin.js';
-import CustomEffects from './../../custom-effects/src/custom-effects.js';
-import RenderStatus from './../../backed/src/internals/render-status.js';
+import define from '../../backed/src/utils/define.js';
+import merge from '../../backed/src/utils/merge.js';
+import RenderMixin from '../../custom-renderer-mixin/src/render-mixin.js';
+import PropertyMixin from '../../backed/src/mixins/property-mixin.js';
+import CustomEffects from '../../custom-effects/src/custom-effects.js';
+import RenderStatus from '../../backed/src/utils/render-status.js';
 
 /**
  * @example
@@ -10,9 +11,9 @@ import RenderStatus from './../../backed/src/internals/render-status.js';
  *   <header slot="header" fixed></header>
  *   <section slot="content"></section> // appears under the header
  * </custom-app-layout>
- * @extends LitMixin, PropertyMixin, HTMLElement
+ * @extends RenderMixin, PropertyMixin, HTMLElement
  */
-export default define(class CustomAppLayout extends PropertyMixin(LitMixin(CustomEffects(HTMLElement))) {
+export default define(class CustomAppLayout extends PropertyMixin(RenderMixin(CustomEffects(HTMLElement))) {
   /**
    * @return {object}
    */
@@ -94,7 +95,7 @@ export default define(class CustomAppLayout extends PropertyMixin(LitMixin(Custo
     }
   }
 
-  render() {
+  get template() {
     if (this.firstRender) { // do nothing on firstRender
       this.firstRender = false;
     }
@@ -136,7 +137,7 @@ export default define(class CustomAppLayout extends PropertyMixin(LitMixin(Custo
         }
       </style>
       <slot name="header"></slot>
-      <span class="content-container" style="margin-top: ${this.headerMarginTop}; padding-top: ${this.headerPaddingTop};">
+      <span class="content-container" style="margin-top: ${'headerMarginTop'}; padding-top: ${'headerPaddingTop'};">
         <slot name="content"></slot>
       </span>
     `;
