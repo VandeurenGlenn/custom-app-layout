@@ -14,9 +14,9 @@ backed@^0.12.2:
   version "0.12.2"
   resolved "https://registry.yarnpkg.com/backed/-/backed-0.12.2.tgz#1eaf5b1654d04038612099e8501aea4296b244c5"
 
-custom-effects@0.9.0-experimental.2, custom-effects@^0.9.0-alpha.1:
-  version "0.9.0-experimental.2"
-  resolved "https://registry.yarnpkg.com/custom-effects/-/custom-effects-0.9.0-experimental.2.tgz#a4074a342aacb9c591c12b97304e8674a5f28fd0"
+custom-effects@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/custom-effects/-/custom-effects-0.10.0.tgz#23b90c5be371290f897af1f4d63e61e352f7c7f3"
 
 rollup@^0.59.4:
   version "0.59.4"

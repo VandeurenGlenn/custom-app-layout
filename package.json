@@ -1,6 +1,6 @@
 {
   "name": "custom-app-layout",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "main": "custom-app-layout.js",
   "module": "src/custom-app-layout.js",
   "repository": "https://github.com/vandeurenglenn/custom-app-layout",
@@ -12,10 +12,7 @@
   },
   "dependencies": {
     "backed": "^0.12.2",
-    "custom-effects": "^0.9.0-alpha.1"
-  },
-  "resolutions": {
-    "custom-effects": "0.9.0-experimental.2"
+    "custom-effects": "^0.10.0"
   },
   "devDependencies": {
     "rollup": "^0.59.4"

@@ -3,7 +3,7 @@ import merge from '../../backed/src/utils/merge.js';
 import RenderMixin from '../../custom-renderer-mixin/src/render-mixin.js';
 import PropertyMixin from '../../backed/src/mixins/property-mixin.js';
 import CustomEffects from '../../custom-effects/src/custom-effects.js';
-import RenderStatus from '../../backed/src/utils/render-status.js';
+import RenderStatus from '../../backed/src/internals/render-status.js';
 
 /**
  * @example
@@ -13,15 +13,15 @@ import RenderStatus from '../../backed/src/utils/render-status.js';
  * </custom-app-layout>
  * @extends RenderMixin, PropertyMixin, HTMLElement
  */
-export default define(class CustomAppLayout extends PropertyMixin(RenderMixin(CustomEffects(HTMLElement))) {
+export default define(class CustomAppLayout extends RenderMixin(PropertyMixin(CustomEffects(HTMLElement))) {
   /**
    * @return {object}
    */
   static get properties() {
     return merge(super.properties, {
       firstRender: {value: true, observer: 'onResize'},
-      headerMarginTop: {value: '', renderer: 'render'},
-      headerPaddingTop: {value: '', renderer: 'render'}
+      headerMarginTop: {value: ''},
+      headerPaddingTop: {value: ''}
     });
   }
 
@@ -37,6 +37,7 @@ export default define(class CustomAppLayout extends PropertyMixin(RenderMixin(Cu
    */
   constructor() {
     super();
+    this.attachShadow({mode: 'open'})
   }
 
   // iterate trough slots untill no slot is found
@@ -65,10 +66,9 @@ export default define(class CustomAppLayout extends PropertyMixin(RenderMixin(Cu
   }
 
   onResize() {
-    if (!this.firstRender) {
+    // if (!this.firstRender) {
       RenderStatus.afterRender(this, () => {
         const headers = this.headers;
-        console.log(this.headers);
         let offsetHeight = 0;
         if (headers.length !== 0) {
           for (const header of headers) {
@@ -92,13 +92,10 @@ export default define(class CustomAppLayout extends PropertyMixin(RenderMixin(Cu
           });
         }
       })
-    }
+    // }
   }
 
   get template() {
-    if (this.firstRender) { // do nothing on firstRender
-      this.firstRender = false;
-    }
     return html`
       <style>
         :host {
