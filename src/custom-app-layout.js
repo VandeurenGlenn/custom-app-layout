@@ -18,11 +18,7 @@ export default define(class CustomAppLayout extends RenderMixin(PropertyMixin(Cu
    * @return {object}
    */
   static get properties() {
-    return merge(super.properties, {
-      firstRender: {value: true, observer: 'onResize'},
-      headerMarginTop: {value: ''},
-      headerPaddingTop: {value: ''}
-    });
+    return merge(super.properties, {});
   }
 
   /**
@@ -38,6 +34,11 @@ export default define(class CustomAppLayout extends RenderMixin(PropertyMixin(Cu
   constructor() {
     super();
     this.attachShadow({mode: 'open'})
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.onResize()
   }
 
   // iterate trough slots untill no slot is found
@@ -66,33 +67,33 @@ export default define(class CustomAppLayout extends RenderMixin(PropertyMixin(Cu
   }
 
   onResize() {
-    // if (!this.firstRender) {
-      RenderStatus.afterRender(this, () => {
-        const headers = this.headers;
-        let offsetHeight = 0;
-        if (headers.length !== 0) {
-          for (const header of headers) {
-            offsetHeight += header.offsetHeight;
-          }
-        } else {
-          offsetHeight = headers[0].offsetHeight;
-        }
-        if (headers[0].hasAttribute('fixed') && !headers[0].hasAttribute('condenses')) {
-          // If the header size does not change and we're using a scrolling region, exclude
-          // the header area from the scrolling region so that the header doesn't overlap
-          // the scrollbar.
-          requestAnimationFrame(() => {
-            this.headerMarginTop = offsetHeight + 'px';
-            this.headerPaddingTop = '';
-          });
-        } else {
-          requestAnimationFrame(() => {
-            this.headerPaddingTop = offsetHeight + 'px';
-            this.headerMarginTop = '';
-          });
-        }
-      })
-    // }
+    const headers = this.headers;
+    let offsetHeight = 0;
+    if (headers.length !== 0) {
+      for (const header of headers) {
+        offsetHeight += header.offsetHeight;
+      }
+    } else {
+      offsetHeight = headers[0].offsetHeight;
+    }
+    if (headers[0].hasAttribute('fixed') && !headers[0].hasAttribute('condenses')) {
+      // If the header size does not change and we're using a scrolling region, exclude
+      // the header area from the scrolling region so that the header doesn't overlap
+      // the scrollbar.
+      requestAnimationFrame(() => {
+        this.contentContainer.style.marginTop = offsetHeight + 'px';
+        this.contentContainer.style.paddingTop = '';
+      });
+    } else {
+      requestAnimationFrame(() => {
+        this.contentContainer.style.marginTop = '';
+        this.contentContainer.style.paddingTop = offsetHeight + 'px';
+      });
+    }
+  }
+
+  get contentContainer() {
+    return this.shadowRoot.querySelector('.content-container')
   }
 
   get template() {
@@ -134,7 +135,7 @@ export default define(class CustomAppLayout extends RenderMixin(PropertyMixin(Cu
         }
       </style>
       <slot name="header"></slot>
-      <span class="content-container" style="margin-top: ${'headerMarginTop'}; padding-top: ${'headerPaddingTop'};">
+      <span class="content-container">
         <slot name="content"></slot>
       </span>
     `;
