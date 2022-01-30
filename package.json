@@ -11,7 +11,7 @@
     "build": "rollup -c"
   },
   "dependencies": {
-    "backed": "^0.12.2",
+    "backed": "^0.13.0",
     "custom-effects": "^0.10.0"
   },
   "devDependencies": {
